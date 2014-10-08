@@ -46,7 +46,7 @@ namespace EmbSysRegView
             nodeTextBoxHex.ToolTipProvider = new InterpretationToolTipProvider();
             client = new OpenOcdTclClient(this);
             client.ConnectionChanged += ClientOnConnectionChanged;
-            client.TargetEvent += ClientOnTargetEvent;
+            client.TargetStateChanged += ClientOnTargetStateChanged;
         }
 
         private void ClientOnConnectionChanged(object sender, EventArgs e)
@@ -57,11 +57,12 @@ namespace EmbSysRegView
                 toolStripStatusLabelConnected.Text = "Disconnected";
         }
 
-        private void ClientOnTargetEvent(object sender, OpenOcdTclClient.TargetEventArgs e)
+        private void ClientOnTargetStateChanged(object sender, OpenOcdTclClient.TargetStateArgs e)
         {
-            switch (e.EventType)
+            switch (e.State)
             {
-                case OpenOcdTclClient.TargetEventType.GdbHalt:
+                case OpenOcdTclClient.TargetState.Halted:
+                case OpenOcdTclClient.TargetState.Reset:
                     RefreshRegisters();
                     break;
             }
