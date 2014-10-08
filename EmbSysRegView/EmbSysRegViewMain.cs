@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using System.Xml.Schema;
 using Aga.Controls.Tree;
 using Aga.Controls.Tree.NodeControls;
+using System.Collections.Generic;
 
 namespace EmbSysRegView
 {
@@ -172,6 +173,54 @@ namespace EmbSysRegView
             var dialog = new OpenChipFileDialog();
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 LoadChipFile(dialog.ChipFile);
+        }
+
+        private void dumpAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var text = "";
+
+            foreach (var node in tree.AllNodes)
+            {
+                var register = node.Tag as RegisterItem;
+                if (register != null && register.Enabled)
+                {
+                    var name = register.ItemPath;
+                    var val = client.ReadMemory(register.Address);
+                    text += String.Format("{0}: {1:X8}\r\n", name, val);
+                }
+            }
+
+            if (saveFileDialogDump.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                File.WriteAllText(saveFileDialogDump.FileName, text);
+            }
+        }
+
+        private void loadDumpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialogDump.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var values = new Dictionary<string, uint>();
+                var text = File.ReadAllText(openFileDialogDump.FileName);
+                foreach (var line in text.Split('\n'))
+                {
+                    if (line.Trim().Length == 0) continue;
+                    var parts = line.Split(':');
+                    var name = parts[0].Trim();
+                    var val = Convert.ToUInt32(parts[1].Trim(), 16);
+                    values.Add(name, val);
+                }
+                foreach (var node in tree.AllNodes)
+                {
+                    var register = node.Tag as RegisterItem;
+                    if (register != null && values.ContainsKey(register.ItemPath))
+                    {
+                        register.Value = values[register.ItemPath];
+                        register.Enabled = true;
+                        register.Owner.OnNodesChanged(register);
+                    }
+                }
+            }
         }
     }
 }

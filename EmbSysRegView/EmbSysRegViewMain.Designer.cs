@@ -33,6 +33,8 @@
             this.toolStripMenuItemLoadChipFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.hideDisabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dumpAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadDumpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tree = new Aga.Controls.Tree.TreeViewAdv();
             this.register = new Aga.Controls.Tree.TreeColumn();
             this.hex = new Aga.Controls.Tree.TreeColumn();
@@ -51,6 +53,8 @@
             this.nodeTextBoxDescription = new Aga.Controls.Tree.NodeControls.NodeTextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelConnected = new System.Windows.Forms.ToolStripStatusLabel();
+            this.saveFileDialogDump = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialogDump = new System.Windows.Forms.OpenFileDialog();
             this.menu.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -59,7 +63,9 @@
             // 
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemLoadChipFile,
-            this.toolStripMenuItem2});
+            this.toolStripMenuItem2,
+            this.dumpAllToolStripMenuItem,
+            this.loadDumpToolStripMenuItem});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
             this.menu.Size = new System.Drawing.Size(924, 24);
@@ -86,9 +92,25 @@
             // 
             this.hideDisabledToolStripMenuItem.CheckOnClick = true;
             this.hideDisabledToolStripMenuItem.Name = "hideDisabledToolStripMenuItem";
-            this.hideDisabledToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.hideDisabledToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.hideDisabledToolStripMenuItem.Text = "Hide Disabled";
             this.hideDisabledToolStripMenuItem.CheckedChanged += new System.EventHandler(this.hideDisabledToolStripMenuItem_CheckedChanged);
+            // 
+            // dumpAllToolStripMenuItem
+            // 
+            this.dumpAllToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.dumpAllToolStripMenuItem.Name = "dumpAllToolStripMenuItem";
+            this.dumpAllToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.dumpAllToolStripMenuItem.Text = "Dump All";
+            this.dumpAllToolStripMenuItem.Click += new System.EventHandler(this.dumpAllToolStripMenuItem_Click);
+            // 
+            // loadDumpToolStripMenuItem
+            // 
+            this.loadDumpToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.loadDumpToolStripMenuItem.Name = "loadDumpToolStripMenuItem";
+            this.loadDumpToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
+            this.loadDumpToolStripMenuItem.Text = "Load Dump";
+            this.loadDumpToolStripMenuItem.Click += new System.EventHandler(this.loadDumpToolStripMenuItem_Click);
             // 
             // tree
             // 
@@ -251,6 +273,14 @@
             this.toolStripStatusLabelConnected.Size = new System.Drawing.Size(79, 17);
             this.toolStripStatusLabelConnected.Text = "Disconnected";
             // 
+            // saveFileDialogDump
+            // 
+            this.saveFileDialogDump.DefaultExt = "txt";
+            // 
+            // openFileDialogDump
+            // 
+            this.openFileDialogDump.DefaultExt = "txt";
+            // 
             // EmbSysRegViewMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -297,6 +327,10 @@
         private System.Windows.Forms.ToolStripMenuItem hideDisabledToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelConnected;
+        private System.Windows.Forms.ToolStripMenuItem dumpAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadDumpToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialogDump;
+        private System.Windows.Forms.OpenFileDialog openFileDialogDump;
     }
 }
 
