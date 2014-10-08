@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EmbSysRegViewMain));
             this.menu = new System.Windows.Forms.MenuStrip();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemLoadChipFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.hideDisabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tree = new Aga.Controls.Tree.TreeViewAdv();
@@ -58,7 +58,7 @@
             // menu
             // 
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
+            this.toolStripMenuItemLoadChipFile,
             this.toolStripMenuItem2});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
@@ -66,12 +66,12 @@
             this.menu.TabIndex = 0;
             this.menu.Text = "menuStrip1";
             // 
-            // toolStripMenuItem1
+            // toolStripMenuItemLoadChipFile
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(97, 20);
-            this.toolStripMenuItem1.Text = "Open Chip File";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            this.toolStripMenuItemLoadChipFile.Name = "toolStripMenuItemLoadChipFile";
+            this.toolStripMenuItemLoadChipFile.Size = new System.Drawing.Size(97, 20);
+            this.toolStripMenuItemLoadChipFile.Text = "Open Chip File";
+            this.toolStripMenuItemLoadChipFile.Click += new System.EventHandler(this.toolStripMenuItemLoadChipFile_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -86,7 +86,7 @@
             // 
             this.hideDisabledToolStripMenuItem.CheckOnClick = true;
             this.hideDisabledToolStripMenuItem.Name = "hideDisabledToolStripMenuItem";
-            this.hideDisabledToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.hideDisabledToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.hideDisabledToolStripMenuItem.Text = "Hide Disabled";
             this.hideDisabledToolStripMenuItem.CheckedChanged += new System.EventHandler(this.hideDisabledToolStripMenuItem_CheckedChanged);
             // 
@@ -277,7 +277,7 @@
 
         private System.Windows.Forms.MenuStrip menu;
         private Aga.Controls.Tree.TreeViewAdv tree;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemLoadChipFile;
         private Aga.Controls.Tree.TreeColumn register;
         private Aga.Controls.Tree.TreeColumn hex;
         private Aga.Controls.Tree.TreeColumn bin;

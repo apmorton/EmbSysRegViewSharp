@@ -176,7 +176,7 @@ namespace EmbSysRegView
                         Connected = true;
                         OnConnectionChanged();
                     }
-                    catch (SocketException ex)
+                    catch (SocketException)
                     {
                         // connection failed, delay retry
                         Thread.Sleep(100);
@@ -213,7 +213,7 @@ namespace EmbSysRegView
                         HandleEvent(eventText);
                     }
                 }
-                catch (SocketException ex)
+                catch (SocketException)
                 {
                     // socket failed, next loop will dispose and reconnect
                     Connected = false;

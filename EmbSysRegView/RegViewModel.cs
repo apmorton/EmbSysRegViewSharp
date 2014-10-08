@@ -128,7 +128,7 @@ namespace EmbSysRegView
         public RegisterGroupItem Parent { get; set; }
         public List<FieldItem> Children;
 
-        public Image Icon
+        public override Image Icon
         {
             get
             {
@@ -192,12 +192,26 @@ namespace EmbSysRegView
 
             Name = reg.Attribute("name").Value;
             Description = reg.Attribute("description").Value;
-            var val = (reg.Attribute("resetvalue") != null) ? reg.Attribute("resetvalue").Value.Trim() : "";
-            Reset = Convert.ToUInt32((val.Length > 0) ? val : "0x00", 16);
-            Access = reg.Attribute("access").Value;
-            Address = Convert.ToUInt32(reg.Attribute("address").Value.Trim(), 16);
+
             ItemPath = Path.Combine(parent.ItemPath, Name);
             Icon = EmbSysRegView.Properties.Resources.unselected_register;
+
+            try
+            {
+                var val = (reg.Attribute("resetvalue") != null) ? reg.Attribute("resetvalue").Value.Trim() : "";
+                if (val.IndexOf('x') > 0)
+                    val = val.Substring(val.IndexOf('x') + 1);
+                Reset = Convert.ToUInt32((val.Length > 0) ? val : "0x00", 16);
+                Access = reg.Attribute("access").Value;
+                val = reg.Attribute("address").Value.Trim();
+                if (val.IndexOf('x') > 0)
+                    val = val.Substring(val.IndexOf('x') + 1);
+                Address = Convert.ToUInt32(val, 16);
+            }
+            catch (Exception ex)
+            {
+                Description = "PARSE ERROR: " + ex.Message;
+            }
         }
 
         public override List<BaseItem> LoadChildren()
@@ -300,7 +314,7 @@ namespace EmbSysRegView
             set { }
         }
 
-        public Image Icon
+        public override Image Icon
         {
             get
             {
@@ -338,7 +352,6 @@ namespace EmbSysRegView
             ItemPath = Path.Combine(parent.ItemPath, Name);
             Icon = EmbSysRegView.Properties.Resources.unselected_field;
 
-            //<interpretation key="0" text="PVD level 2.0V"/>
             foreach (var interp in Element.Descendants("interpretation"))
             {
                 var key = uint.Parse(interp.Attribute("key").Value);

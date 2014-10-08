@@ -94,11 +94,6 @@ namespace EmbSysRegView
             }
         }
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            LoadChipFile(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "data", "cortex-m3", "STMicro", "stm32f20x.xml"));
-        }
-
         private void tree_DrawControl(object sender, Aga.Controls.Tree.NodeControls.DrawEventArgs e)
         {
             var item = e.Node.Tag as BaseItem;
@@ -170,6 +165,13 @@ namespace EmbSysRegView
         private void EmbSysRegViewMain_Load(object sender, EventArgs e)
         {
             client.Start();
+        }
+
+        private void toolStripMenuItemLoadChipFile_Click(object sender, EventArgs e)
+        {
+            var dialog = new OpenChipFileDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                LoadChipFile(dialog.ChipFile);
         }
     }
 }
