@@ -12,7 +12,9 @@ namespace EmbSysRegView
 {
     public partial class EmbSysRegViewMain : Form
     {
-        private class ToolTipProvider: IToolTipProvider
+        private OpenOcdTclClient client;
+
+        private class DescriptionToolTipProvider: IToolTipProvider
         {
             public string GetToolTip(TreeNodeAdv node, NodeControl nodeControl)
             {
@@ -23,12 +25,56 @@ namespace EmbSysRegView
             }
         }
 
+        private class InterpretationToolTipProvider : IToolTipProvider
+        {
+            public string GetToolTip(TreeNodeAdv node, NodeControl nodeControl)
+            {
+                var item = node.Tag as FieldItem;
+                if (item == null) return null;
+                var interp = item.Interpretation();
+                if (interp == item.Description) return null;
+                return interp;
+            }
+        }
+
         public EmbSysRegViewMain()
         {
             InitializeComponent();
-            nodeTextBoxDescription.ToolTipProvider = new ToolTipProvider();
+            nodeTextBoxDescription.ToolTipProvider = new DescriptionToolTipProvider();
+            nodeTextBoxBin.ToolTipProvider = new InterpretationToolTipProvider();
+            nodeTextBoxHex.ToolTipProvider = new InterpretationToolTipProvider();
+            client = new OpenOcdTclClient(this);
+            client.ConnectionChanged += ClientOnConnectionChanged;
+            client.TargetEvent += ClientOnTargetEvent;
+        }
+
+        private void ClientOnConnectionChanged(object sender, EventArgs e)
+        {
+            if (client.Connected)
+                toolStripStatusLabelConnected.Text = "Connected";
+            else
+                toolStripStatusLabelConnected.Text = "Disconnected";
+        }
+
+        private void ClientOnTargetEvent(object sender, OpenOcdTclClient.TargetEventArgs e)
+        {
+            switch (e.EventType)
+            {
+                case OpenOcdTclClient.TargetEventType.GdbHalt:
+                    RefreshRegisters();
+                    break;
+            }
+        }
+
+        private void RefreshRegisters()
+        {
             foreach (var node in tree.AllNodes)
             {
+                var register = node.Tag as RegisterItem;
+                if (register != null && register.Enabled)
+                {
+                    register.Value = client.ReadMemory(register.Address);
+                }
             }
         }
 
@@ -68,15 +114,21 @@ namespace EmbSysRegView
             {
                 case "Bin":
                     e.Text = item.FormatBin();
+                    e.TextColor = (item.Changed) ? System.Drawing.Color.Red : System.Drawing.SystemColors.ControlText;
                     break;
                 case "Hex":
                     e.Text = item.FormatHex();
+                    e.TextColor = (item.Changed) ? System.Drawing.Color.Red : System.Drawing.SystemColors.ControlText;
                     break;
                 case "Reset":
                     e.Text = item.FormatReset();
                     break;
                 case "Address":
                     e.Text = item.FormatAddress();
+                    break;
+                case "Description":
+                    if (fieldItem != null)
+                        e.Text = fieldItem.Interpretation();
                     break;
             }
         }
@@ -113,6 +165,11 @@ namespace EmbSysRegView
         private void hideDisabledToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             (tree.Model as RegViewModel).ShowDisabled = !hideDisabledToolStripMenuItem.Checked;
+        }
+
+        private void EmbSysRegViewMain_Load(object sender, EventArgs e)
+        {
+            client.Start();
         }
     }
 }

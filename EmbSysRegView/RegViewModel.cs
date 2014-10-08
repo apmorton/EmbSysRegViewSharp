@@ -25,6 +25,8 @@ namespace EmbSysRegView
         public virtual uint Address { get; set; }
         public virtual string Description { get; set; }
 
+        public virtual bool Changed { get { return false; } }
+
         public abstract List<BaseItem> LoadChildren();
 
         public virtual string FormatBin()
@@ -151,6 +153,8 @@ namespace EmbSysRegView
             }
         }
 
+        public uint LastValue { get; set; }
+
         public override uint Value
         {
             get
@@ -159,8 +163,24 @@ namespace EmbSysRegView
             }
             set
             {
+                // store last values
+                LastValue = base.Value;
+                foreach (var child in Children)
+                {
+                    child.LastValue = child.Value;
+                }
+
+                // set new value
                 base.Value = value;
                 Owner.OnNodesChanged(this);
+            }
+        }
+
+        public override bool Changed
+        {
+            get
+            {
+                return LastValue != Value;
             }
         }
 
@@ -200,11 +220,15 @@ namespace EmbSysRegView
 
         public override string FormatBin()
         {
-            return Convert.ToString(Value, 2).PadLeft(32, '0');
+            if (!Enabled)
+                return "";
+            return Convert.ToString(Value, 2).PadLeft(32, '0').Trim();
         }
 
         public override string FormatHex()
         {
+            if (!Enabled)
+                return "";
             return String.Format("0x{0:X8}", Value);
         }
 
@@ -226,6 +250,8 @@ namespace EmbSysRegView
         public int BitOffset { get; set; }
         public int BitLength { get; set; }
 
+        private readonly Dictionary<uint, string> interpretations = new Dictionary<uint, string>();
+
         public override string Access
         {
             get
@@ -238,6 +264,8 @@ namespace EmbSysRegView
             }
         }
 
+        public uint LastValue { get; set; }
+
         public override uint Value
         {
             get
@@ -249,6 +277,14 @@ namespace EmbSysRegView
                 return (Parent.Value >> BitOffset) & mask;
             }
             set { }
+        }
+
+        public override bool Changed
+        {
+            get
+            {
+                return LastValue != Value;
+            }
         }
 
         public override uint Reset
@@ -301,6 +337,14 @@ namespace EmbSysRegView
 
             ItemPath = Path.Combine(parent.ItemPath, Name);
             Icon = EmbSysRegView.Properties.Resources.unselected_field;
+
+            //<interpretation key="0" text="PVD level 2.0V"/>
+            foreach (var interp in Element.Descendants("interpretation"))
+            {
+                var key = uint.Parse(interp.Attribute("key").Value);
+                var text = interp.Attribute("text").Value.Trim();
+                interpretations.Add(key, text);
+            }
         }
 
         public override List<BaseItem> LoadChildren()
@@ -310,11 +354,15 @@ namespace EmbSysRegView
 
         public override string FormatBin()
         {
-            return Convert.ToString(Value, 2).PadLeft(BitLength, '0');
+            if (!Parent.Enabled)
+                return "";
+            return Convert.ToString(Value, 2).PadLeft(BitLength, '0').Trim();
         }
 
         public override string FormatHex()
         {
+            if (!Parent.Enabled)
+                return "";
             int byteLength = (int)Math.Ceiling(BitLength / 8.0) * 2;
             return String.Format("0x{0:X" + byteLength.ToString() + "}", Value);
         }
@@ -332,6 +380,14 @@ namespace EmbSysRegView
             var bits = BitOffset % 8;
 
             return String.Format("0x{0:X8}:{1}", addr, bits);
+        }
+
+        public string Interpretation()
+        {
+            uint val = Value;
+            if (interpretations.ContainsKey(val))
+                return interpretations[val];
+            return Description;
         }
     }
 

@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EmbSysRegViewMain));
             this.menu = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideDisabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tree = new Aga.Controls.Tree.TreeViewAdv();
             this.register = new Aga.Controls.Tree.TreeColumn();
             this.hex = new Aga.Controls.Tree.TreeColumn();
@@ -47,9 +49,10 @@
             this.nodeTextBoxAccess = new Aga.Controls.Tree.NodeControls.NodeTextBox();
             this.nodeTextBoxAddress = new Aga.Controls.Tree.NodeControls.NodeTextBox();
             this.nodeTextBoxDescription = new Aga.Controls.Tree.NodeControls.NodeTextBox();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.hideDisabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabelConnected = new System.Windows.Forms.ToolStripStatusLabel();
             this.menu.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menu
@@ -59,16 +62,33 @@
             this.toolStripMenuItem2});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
-            this.menu.Size = new System.Drawing.Size(824, 24);
+            this.menu.Size = new System.Drawing.Size(924, 24);
             this.menu.TabIndex = 0;
             this.menu.Text = "menuStrip1";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(125, 20);
-            this.toolStripMenuItem1.Text = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(97, 20);
+            this.toolStripMenuItem1.Text = "Open Chip File";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.hideDisabledToolStripMenuItem});
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(61, 20);
+            this.toolStripMenuItem2.Text = "Settings";
+            // 
+            // hideDisabledToolStripMenuItem
+            // 
+            this.hideDisabledToolStripMenuItem.CheckOnClick = true;
+            this.hideDisabledToolStripMenuItem.Name = "hideDisabledToolStripMenuItem";
+            this.hideDisabledToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.hideDisabledToolStripMenuItem.Text = "Hide Disabled";
+            this.hideDisabledToolStripMenuItem.CheckedChanged += new System.EventHandler(this.hideDisabledToolStripMenuItem_CheckedChanged);
             // 
             // tree
             // 
@@ -98,7 +118,7 @@
             this.tree.NodeControls.Add(this.nodeTextBoxDescription);
             this.tree.SelectedNode = null;
             this.tree.ShowNodeToolTips = true;
-            this.tree.Size = new System.Drawing.Size(824, 443);
+            this.tree.Size = new System.Drawing.Size(924, 421);
             this.tree.TabIndex = 1;
             this.tree.UseColumns = true;
             this.tree.NodeMouseClick += new System.EventHandler<Aga.Controls.Tree.TreeNodeAdvMouseEventArgs>(this.tree_NodeMouseClick);
@@ -109,7 +129,7 @@
             this.register.Header = "Register";
             this.register.SortOrder = System.Windows.Forms.SortOrder.None;
             this.register.TooltipText = null;
-            this.register.Width = 100;
+            this.register.Width = 185;
             // 
             // hex
             // 
@@ -123,7 +143,7 @@
             this.bin.Header = "Bin";
             this.bin.SortOrder = System.Windows.Forms.SortOrder.None;
             this.bin.TooltipText = null;
-            this.bin.Width = 200;
+            this.bin.Width = 215;
             // 
             // reset
             // 
@@ -165,6 +185,7 @@
             this.nodeTextBoxName.IncrementalSearchEnabled = true;
             this.nodeTextBoxName.LeftMargin = 3;
             this.nodeTextBoxName.ParentColumn = this.register;
+            this.nodeTextBoxName.Trimming = System.Drawing.StringTrimming.EllipsisCharacter;
             // 
             // nodeTextBoxHex
             // 
@@ -172,6 +193,7 @@
             this.nodeTextBoxHex.IncrementalSearchEnabled = true;
             this.nodeTextBoxHex.LeftMargin = 3;
             this.nodeTextBoxHex.ParentColumn = this.hex;
+            this.nodeTextBoxHex.Trimming = System.Drawing.StringTrimming.EllipsisCharacter;
             // 
             // nodeTextBoxBin
             // 
@@ -179,6 +201,7 @@
             this.nodeTextBoxBin.IncrementalSearchEnabled = true;
             this.nodeTextBoxBin.LeftMargin = 3;
             this.nodeTextBoxBin.ParentColumn = this.bin;
+            this.nodeTextBoxBin.Trimming = System.Drawing.StringTrimming.EllipsisCharacter;
             // 
             // nodeTextBoxReset
             // 
@@ -186,6 +209,7 @@
             this.nodeTextBoxReset.IncrementalSearchEnabled = true;
             this.nodeTextBoxReset.LeftMargin = 3;
             this.nodeTextBoxReset.ParentColumn = this.reset;
+            this.nodeTextBoxReset.Trimming = System.Drawing.StringTrimming.EllipsisCharacter;
             // 
             // nodeTextBoxAccess
             // 
@@ -193,6 +217,7 @@
             this.nodeTextBoxAccess.IncrementalSearchEnabled = true;
             this.nodeTextBoxAccess.LeftMargin = 3;
             this.nodeTextBoxAccess.ParentColumn = this.access;
+            this.nodeTextBoxAccess.Trimming = System.Drawing.StringTrimming.EllipsisCharacter;
             // 
             // nodeTextBoxAddress
             // 
@@ -200,47 +225,49 @@
             this.nodeTextBoxAddress.IncrementalSearchEnabled = true;
             this.nodeTextBoxAddress.LeftMargin = 3;
             this.nodeTextBoxAddress.ParentColumn = this.address;
+            this.nodeTextBoxAddress.Trimming = System.Drawing.StringTrimming.EllipsisCharacter;
             // 
             // nodeTextBoxDescription
             // 
             this.nodeTextBoxDescription.DataPropertyName = "Description";
-            this.nodeTextBoxDescription.EditEnabled = true;
             this.nodeTextBoxDescription.IncrementalSearchEnabled = true;
             this.nodeTextBoxDescription.LeftMargin = 3;
             this.nodeTextBoxDescription.ParentColumn = this.description;
             this.nodeTextBoxDescription.Trimming = System.Drawing.StringTrimming.EllipsisWord;
             this.nodeTextBoxDescription.TrimMultiLine = true;
             // 
-            // toolStripMenuItem2
+            // statusStrip1
             // 
-            this.toolStripMenuItem2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.hideDisabledToolStripMenuItem});
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(61, 20);
-            this.toolStripMenuItem2.Text = "Settings";
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabelConnected});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 445);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(924, 22);
+            this.statusStrip1.TabIndex = 2;
             // 
-            // hideDisabledToolStripMenuItem
+            // toolStripStatusLabelConnected
             // 
-            this.hideDisabledToolStripMenuItem.CheckOnClick = true;
-            this.hideDisabledToolStripMenuItem.Name = "hideDisabledToolStripMenuItem";
-            this.hideDisabledToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.hideDisabledToolStripMenuItem.Text = "Hide Disabled";
-            this.hideDisabledToolStripMenuItem.CheckedChanged += new System.EventHandler(this.hideDisabledToolStripMenuItem_CheckedChanged);
+            this.toolStripStatusLabelConnected.Name = "toolStripStatusLabelConnected";
+            this.toolStripStatusLabelConnected.Size = new System.Drawing.Size(79, 17);
+            this.toolStripStatusLabelConnected.Text = "Disconnected";
             // 
             // EmbSysRegViewMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(824, 467);
+            this.ClientSize = new System.Drawing.Size(924, 467);
             this.Controls.Add(this.tree);
             this.Controls.Add(this.menu);
+            this.Controls.Add(this.statusStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menu;
             this.Name = "EmbSysRegViewMain";
             this.Text = "EmbSysRegView";
+            this.Load += new System.EventHandler(this.EmbSysRegViewMain_Load);
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -268,6 +295,8 @@
         private Aga.Controls.Tree.NodeControls.NodeStateIcon nodeStateIcon;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem hideDisabledToolStripMenuItem;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelConnected;
     }
 }
 
