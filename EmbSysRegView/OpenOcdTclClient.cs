@@ -298,8 +298,8 @@ namespace EmbSysRegView
                         // connect to server
                         socket.Connect(Hostname, Port);
 
-                        // turn on state change notifications
-                        SendCommand("tcl_notifications state on");
+                        // turn on notifications
+                        SendCommand("tcl_notifications on");
 
                         Connected = true;
                         OnConnectionChanged();
@@ -352,17 +352,17 @@ namespace EmbSysRegView
 
         private bool HandleAsync(string response)
         {
-            if (response.StartsWith("#EVENT "))
+            if (response.StartsWith("type target_event event "))
             {
                 HandleEvent(response);
                 return true;
             }
-            else if (response.StartsWith("#STATE "))
+            else if (response.StartsWith("type target_state state "))
             {
                 HandleState(response);
                 return true;
             }
-            else if (response.StartsWith("#RESET "))
+            else if (response.StartsWith("type target_reset mode "))
             {
                 HandleReset(response);
                 return true;
@@ -376,7 +376,7 @@ namespace EmbSysRegView
             TargetEvent val;
 
             // remove event prefix
-            response = response.Replace("#EVENT ", "");
+            response = response.Replace("type target_event event ", "");
 
             // map event enum and raise event on success
             if (MapTargetEnum(targetEventMap, response, out val))
@@ -388,7 +388,7 @@ namespace EmbSysRegView
             TargetState val;
 
             // remove event prefix
-            response = response.Replace("#STATE ", "");
+            response = response.Replace("type target_state state ", "");
 
             // map state enum and raise event on success
             if (MapTargetEnum(targetStateMap, response, out val))
@@ -400,7 +400,7 @@ namespace EmbSysRegView
             TargetResetMode val;
 
             // remove event prefix
-            response = response.Replace("#RESET ", "");
+            response = response.Replace("type target_reset mode ", "");
 
             // map reset mode enum and raise event on success
             if (MapTargetEnum(targetResetModeMap, response, out val))
