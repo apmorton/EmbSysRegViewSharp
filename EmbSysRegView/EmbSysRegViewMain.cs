@@ -13,7 +13,7 @@ namespace EmbSysRegView
 {
     public partial class EmbSysRegViewMain : Form
     {
-        private OpenOcdTclClient client;
+        private OpenOcdTclClient.OpenOcdTclClient client;
 
         private class DescriptionToolTipProvider: IToolTipProvider
         {
@@ -44,7 +44,7 @@ namespace EmbSysRegView
             nodeTextBoxDescription.ToolTipProvider = new DescriptionToolTipProvider();
             nodeTextBoxBin.ToolTipProvider = new InterpretationToolTipProvider();
             nodeTextBoxHex.ToolTipProvider = new InterpretationToolTipProvider();
-            client = new OpenOcdTclClient(this);
+            client = new OpenOcdTclClient.OpenOcdTclClient(this);
             client.ConnectionChanged += ClientOnConnectionChanged;
             client.TargetStateChanged += ClientOnTargetStateChanged;
         }
@@ -57,7 +57,7 @@ namespace EmbSysRegView
                 toolStripStatusLabelConnected.Text = "Disconnected";
         }
 
-        private void ClientOnTargetStateChanged(object sender, OpenOcdTclClient.TargetStateArgs e)
+        private void ClientOnTargetStateChanged(object sender, OpenOcdTclClient.OpenOcdTclClient.TargetStateArgs e)
         {
             switch (e.State)
             {
