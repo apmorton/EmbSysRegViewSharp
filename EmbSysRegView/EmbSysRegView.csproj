@@ -1929,13 +1929,13 @@
     <None Include="Resources\selected_register.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\OpenOcdTclClient\OpenOcdTclClient\OpenOcdTclClient.csproj">
-      <Project>{a171e5bd-b338-4666-9b6a-02f443ff61b0}</Project>
-      <Name>OpenOcdTclClient</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Aga.Controls\Aga.Controls.csproj">
       <Project>{e73bb233-d88b-44a7-a98f-d71ee158381d}</Project>
       <Name>Aga.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenOcdTclClient\OpenOcdTclClient\OpenOcdTclClient.csproj">
+      <Project>{a171e5bd-b338-4666-9b6a-02f443ff61b0}</Project>
+      <Name>OpenOcdTclClient</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

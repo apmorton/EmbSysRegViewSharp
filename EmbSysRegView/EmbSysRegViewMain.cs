@@ -45,6 +45,7 @@ namespace EmbSysRegView
             nodeTextBoxBin.ToolTipProvider = new InterpretationToolTipProvider();
             nodeTextBoxHex.ToolTipProvider = new InterpretationToolTipProvider();
             client = new OpenOcdTclClient.OpenOcdTclClient(this);
+            client.Notifications = true;
             client.ConnectionChanged += ClientOnConnectionChanged;
             client.TargetStateChanged += ClientOnTargetStateChanged;
         }
@@ -59,6 +60,7 @@ namespace EmbSysRegView
 
         private void ClientOnTargetStateChanged(object sender, OpenOcdTclClient.OpenOcdTclClient.TargetStateArgs e)
         {
+            toolStripStatusLabelTargetState.Text = e.State.ToString();
             switch (e.State)
             {
                 case OpenOcdTclClient.TargetState.Halted:

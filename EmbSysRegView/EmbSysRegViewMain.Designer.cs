@@ -55,6 +55,7 @@
             this.toolStripStatusLabelConnected = new System.Windows.Forms.ToolStripStatusLabel();
             this.saveFileDialogDump = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialogDump = new System.Windows.Forms.OpenFileDialog();
+            this.toolStripStatusLabelTargetState = new System.Windows.Forms.ToolStripStatusLabel();
             this.menu.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -261,7 +262,8 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabelConnected});
+            this.toolStripStatusLabelConnected,
+            this.toolStripStatusLabelTargetState});
             this.statusStrip1.Location = new System.Drawing.Point(0, 445);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(924, 22);
@@ -270,8 +272,10 @@
             // toolStripStatusLabelConnected
             // 
             this.toolStripStatusLabelConnected.Name = "toolStripStatusLabelConnected";
-            this.toolStripStatusLabelConnected.Size = new System.Drawing.Size(79, 17);
+            this.toolStripStatusLabelConnected.Size = new System.Drawing.Size(893, 17);
+            this.toolStripStatusLabelConnected.Spring = true;
             this.toolStripStatusLabelConnected.Text = "Disconnected";
+            this.toolStripStatusLabelConnected.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // saveFileDialogDump
             // 
@@ -280,6 +284,12 @@
             // openFileDialogDump
             // 
             this.openFileDialogDump.DefaultExt = "txt";
+            // 
+            // toolStripStatusLabelTargetState
+            // 
+            this.toolStripStatusLabelTargetState.Name = "toolStripStatusLabelTargetState";
+            this.toolStripStatusLabelTargetState.Size = new System.Drawing.Size(16, 17);
+            this.toolStripStatusLabelTargetState.Text = "...";
             // 
             // EmbSysRegViewMain
             // 
@@ -331,6 +341,7 @@
         private System.Windows.Forms.ToolStripMenuItem loadDumpToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialogDump;
         private System.Windows.Forms.OpenFileDialog openFileDialogDump;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelTargetState;
     }
 }
 
