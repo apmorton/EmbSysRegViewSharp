@@ -1942,8 +1942,8 @@
   <PropertyGroup>
     <PostBuildEvent>if "$(ConfigurationName)" == "Release" (
 move "$(TargetPath)" "$(TargetDir)tmp.exe"
-"$(SolutionDir)packages\ilmerge.2.13.0307\ILMerge.exe" /v4 /ndebug /out:"$(TargetPath)" "$(TargetDir)tmp.exe" "$(TargetDir)Aga.Controls.dll" "$(TargetDir)OpenOcdTclClient.dll"
-del "$(TargetDir)tmp.exe" "$(TargetDir)Aga.Controls.dll" "$(TargetDir)OpenOcdTclClient.dll"
+"$(SolutionDir)packages\ilmerge.2.14.1208\tools\ILMerge.exe" /v4 /ndebug /out:"$(TargetPath)" "$(TargetDir)tmp.exe" "$(TargetDir)Aga.Controls.dll" "$(TargetDir)OpenOcdTclClient.dll"
+del "$(TargetDir)tmp.exe" "$(TargetDir)Aga.Controls.dll" "$(TargetDir)OpenOcdTclClient.dll" "$(TargetDir)Aga.Controls.pdb" "$(TargetDir)OpenOcdTclClient.pdb"
 )</PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
